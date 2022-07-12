@@ -1,5 +1,4 @@
 import UIKit
-import SVProgressHUD
 import MessageUI
 
 class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
@@ -74,16 +73,16 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     @IBAction func callBtnClick(sender: UIButton){
-        SVProgressHUD.showInfo(withStatus: VMCMessages.callUnavailableMsg)
+        VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.callUnavailableMsg)
     }
     
     @IBAction func messageBtnClick(sender: UIButton){
-        SVProgressHUD.showInfo(withStatus: VMCMessages.msgUnavailableMsg)
+        VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.msgUnavailableMsg)
     }
     
     @IBAction func mailBtnClick(sender: UIButton){
         if !MFMailComposeViewController.canSendMail(){
-            SVProgressHUD.showInfo(withStatus: VMCMessages.mailUnavailableMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.mailUnavailableMsg)
         } else{
             openMailComposer()
         }
@@ -118,7 +117,7 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         })
         let okAction = UIAlertAction(title: VMCTitles.DeleteBtnTitle, style: .destructive, handler: {
             alert -> Void in
-            SVProgressHUD.showSuccess(withStatus: VMCMessages.connectionDeletedConfirmMsg)
+            VMCMethods.shared.progressHudAction(hudType: "success", message: VMCMessages.connectionDeletedConfirmMsg)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.navigationController?.popViewController(animated: true)
             }

@@ -1,5 +1,4 @@
 import UIKit
-import SVProgressHUD
 import Alamofire
 import Kingfisher
 import DZNEmptyDataSet
@@ -15,13 +14,6 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     var searchText = String()
     var isSearch = false
     
-    struct Section {
-        let letter : String
-        let names : [VMCContactModelElement] = []
-    }
-    
-    var sections = [Section]()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
@@ -41,10 +33,10 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     
     //MARKS:GET CONTACTS LIST
     func getContacts(){
-        SVProgressHUD.show()
+        VMCMethods.shared.progressHudAction(hudType: "show", message: "")
         VMCApiManager.getContactsData(completion: { message, success, data in
             if success{
-                SVProgressHUD.dismiss()
+                VMCMethods.shared.progressHudAction(hudType: "dismiss", message: "")
                 self.contactsList = data ?? []
                 //Contact List Sorting
                 self.contactsList = self.contactsList.sorted(by: { (Obj1, Obj2) -> Bool in
@@ -55,7 +47,7 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
                 self.connectionsCountLbl.text = "Connections (\(self.contactsList.count))"
                 self.tblView.reloadData()
             }else{
-                SVProgressHUD.showError(withStatus: message)
+                VMCMethods.shared.progressHudAction(hudType: "error", message: message ?? "")
             }
         })
     }
@@ -137,7 +129,7 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
 extension VMCContactsVC: UISearchBarDelegate, UISearchDisplayDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard (searchBar.text?.count ?? 0) > 1 else{
-            SVProgressHUD.showInfo(withStatus: VMCMessages.searchValidationMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.searchValidationMsg)
             return
         }
         self.searchText = searchBar.text ?? ""

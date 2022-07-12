@@ -1,5 +1,4 @@
 import UIKit
-import SVProgressHUD
 import SwifterSwift
 
 class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
@@ -101,23 +100,23 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
     
     @IBAction func saveBtnClick(sender: UIButton){
         if self.firstNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            SVProgressHUD.showInfo(withStatus: VMCMessages.firstNameEmptyMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.firstNameEmptyMsg)
             self.firstNameTextField.becomeFirstResponder()
         }else if self.lastNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            SVProgressHUD.showInfo(withStatus: VMCMessages.lastNameEmptyMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.lastNameEmptyMsg)
             self.lastNameTextField.becomeFirstResponder()
         }else if self.emailTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            SVProgressHUD.showInfo(withStatus: VMCMessages.invalidEmailMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
             self.emailTextField.becomeFirstResponder()
         }else if !VMCMethods.shared.isValidEmail(emailText: self.emailTextField.text!){
-            SVProgressHUD.showInfo(withStatus: VMCMessages.invalidEmailMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
             self.emailTextField.becomeFirstResponder()
         }else if self.favColorTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            SVProgressHUD.showInfo(withStatus: VMCMessages.favColorEmptyMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.favColorEmptyMsg)
             self.favColorTextField.becomeFirstResponder()
         } else {
             self.view.endEditing(true)
-            SVProgressHUD.showSuccess(withStatus: self.isEdit ? VMCMessages.connectionUpdatedMsg : VMCMessages.newConnectionAddedMsg)
+            VMCMethods.shared.progressHudAction(hudType: "success", message: self.isEdit ? VMCMessages.connectionUpdatedMsg : VMCMessages.newConnectionAddedMsg)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.navigationController?.popViewController(animated: true)
             }

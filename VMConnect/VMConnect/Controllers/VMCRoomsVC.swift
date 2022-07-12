@@ -1,5 +1,4 @@
 import UIKit
-import SVProgressHUD
 import Alamofire
 import Kingfisher
 import DZNEmptyDataSet
@@ -48,10 +47,10 @@ class VMCRoomsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     //MARKS:GET ROOMS LIST
     func getRoomsList(){
-        SVProgressHUD.show()
+        VMCMethods.shared.progressHudAction(hudType: "show", message: "")
         VMCApiManager.getRoomsData(completion: { message, success, data in
             if success{
-                SVProgressHUD.dismiss()
+                VMCMethods.shared.progressHudAction(hudType: "dismiss", message: "")
                 self.roomsList = data ?? []
                 switch self.segmentedControl.selectedSegmentIndex {
                 case 0:
@@ -67,7 +66,7 @@ class VMCRoomsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                 }
                 self.tblView.reloadData()
             }else{
-                SVProgressHUD.showError(withStatus: message)
+                VMCMethods.shared.progressHudAction(hudType: "error", message: message ?? "")
             }
         })
     }

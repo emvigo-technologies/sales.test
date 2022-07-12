@@ -1,6 +1,7 @@
 import UIKit
 import Foundation
 import Kingfisher
+import SVProgressHUD
 
 class VMCMethods: NSObject {
     static let shared = VMCMethods()
@@ -23,6 +24,29 @@ class VMCMethods: NSObject {
         
         return attributedString1
     }
+    
+    func progressHudAction(hudType:String,message:String){
+        switch hudType {
+        case "show":
+            SVProgressHUD.show()
+            break
+        case "dismiss":
+            SVProgressHUD.dismiss()
+            break
+        case "error":
+            SVProgressHUD.showError(withStatus: message)
+            break
+        case "info":
+            SVProgressHUD.showInfo(withStatus: message)
+            break
+        case "success":
+            SVProgressHUD.showSuccess(withStatus: message)
+            break
+        default:
+            break
+        }
+    }
+
 }
 
 public extension UIView {

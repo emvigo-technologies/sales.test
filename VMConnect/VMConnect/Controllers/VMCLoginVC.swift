@@ -1,5 +1,4 @@
 import UIKit
-import SVProgressHUD
 
 class VMCLoginVC: UIViewController {
     
@@ -13,17 +12,17 @@ class VMCLoginVC: UIViewController {
     
     @IBAction func logInBtnClick(_ sender: UIButton) {
         if self.emailTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            SVProgressHUD.showInfo(withStatus: VMCMessages.invalidEmailMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
             self.emailTextField.becomeFirstResponder()
         }else if !VMCMethods.shared.isValidEmail(emailText: self.emailTextField.text!){
-            SVProgressHUD.showInfo(withStatus: VMCMessages.invalidEmailMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
             self.emailTextField.becomeFirstResponder()
         }else if self.passwordTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            SVProgressHUD.showInfo(withStatus: VMCMessages.passwordEmptyMsg)
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.passwordEmptyMsg)
             self.passwordTextField.becomeFirstResponder()
         } else {
             self.view.endEditing(true)
-            SVProgressHUD.showSuccess(withStatus: VMCMessages.loginSuccessMsg)
+            VMCMethods.shared.progressHudAction(hudType: "success", message: VMCMessages.loginSuccessMsg)
             UserDefaults.standard.set(true, forKey: "isLogged")
             UserDefaults.standard.synchronize()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
