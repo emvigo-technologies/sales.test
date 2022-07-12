@@ -836,11 +836,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bgView" destination="ka8-AX-Q2H" id="QIA-HZ-AjU"/>
-                        <outlet property="emailTextField" destination="AXG-fr-Mf2" id="iEr-pV-FL3"/>
-                        <outlet property="favColorTextField" destination="rCD-Ou-WEc" id="ODK-3p-2rC"/>
-                        <outlet property="firstNameTextField" destination="y9r-sb-F9V" id="Ule-Zl-sLD"/>
+                        <outlet property="emailTextField" destination="AXG-fr-Mf2" id="ppT-of-OZx"/>
+                        <outlet property="favColorTextField" destination="rCD-Ou-WEc" id="0Sl-RB-lv1"/>
+                        <outlet property="firstNameTextField" destination="y9r-sb-F9V" id="NsT-2D-yKv"/>
                         <outlet property="headerView" destination="BJj-JX-tQc" id="i0p-Jf-V98"/>
-                        <outlet property="lastNameTextField" destination="Iio-rH-rvA" id="9Lo-rx-Zfc"/>
+                        <outlet property="lastNameTextField" destination="Iio-rH-rvA" id="sN6-Gd-fxE"/>
                         <outlet property="userImage" destination="LZB-Cp-fpQ" id="sz9-3V-HQS"/>
                     </connections>
                 </viewController>

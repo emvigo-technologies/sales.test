@@ -4,10 +4,10 @@ import SwifterSwift
 
 class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
-    @IBOutlet weak var firstNameTextField: UITextField!
-    @IBOutlet weak var lastNameTextField: UITextField!
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var favColorTextField: UITextField!
+    @IBOutlet weak var firstNameTextField: VMCTextFields!
+    @IBOutlet weak var lastNameTextField: VMCTextFields!
+    @IBOutlet weak var emailTextField: VMCTextFields!
+    @IBOutlet weak var favColorTextField: VMCTextFields!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet var headerView: UIView!
     @IBOutlet var bgView: UIView!
@@ -21,10 +21,10 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
         self.bgView.addShadow(ofColor: VMCColors.ListViewShadowColor, radius: 4.0, offset: CGSize(width:0,height:0), opacity: 0.2)
         self.imagePicker.delegate = self
         if self.isEdit{
-            self.title = "Edit Connection"
+            self.title = VMCTitles.EditConnectionTitle
             if let imgUrlString = self.selectedContactData?.avatar{
                 if !(imgUrlString.isEmpty){
-                    self.userImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: "contactPlaceHolder"))
+                    self.userImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.ContactImagePlaceHolder))
                 }
             }
             self.firstNameTextField.text = self.selectedContactData?.firstName ?? ""
@@ -32,7 +32,7 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
             self.emailTextField.text = self.selectedContactData?.email ?? ""
             self.favColorTextField.text = self.selectedContactData?.favouriteColor ?? ""
         }else{
-            self.title = "Add Connection"
+            self.title = VMCTitles.AddConnectionTitle
         }
         // Do any additional setup after loading the view.
     }
@@ -42,14 +42,14 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
     }
     
     @IBAction func cameraButtonClick(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "Choose Option", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-        let libAction = UIAlertAction(title: "Photo Library", style: UIAlertAction.Style.default, handler: {
+        let alertController = UIAlertController(title: VMCTitles.ChooseOption, message: "", preferredStyle: UIAlertController.Style.actionSheet)
+        let libAction = UIAlertAction(title: VMCTitles.PhotoLibrary, style: UIAlertAction.Style.default, handler: {
             alert -> Void in
             self.imagePicker.allowsEditing = true
             self.imagePicker.sourceType = .photoLibrary
             self.present(self.imagePicker, animated: true, completion: nil)
         })
-        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertAction.Style.default, handler: {
+        let cameraAction = UIAlertAction(title: VMCTitles.Camera, style: UIAlertAction.Style.default, handler: {
             alert -> Void in
             if UIImagePickerController.availableCaptureModes(for: .rear) != nil{
                 self.imagePicker.allowsEditing = false
@@ -61,7 +61,7 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
                 self.noCamera()
             }
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: {
+        let cancelAction = UIAlertAction(title: VMCTitles.CancelBtnTitle, style: UIAlertAction.Style.cancel, handler: {
             alert -> Void in
         })
         alertController.addAction(libAction)
@@ -88,10 +88,10 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
     
     func noCamera(){
         let alertVC = UIAlertController(
-            title: "No Camera",
+            title: VMCTitles.NoCamera,
             message: VMCMessages.cameraUnavailableMsg,
             preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK",style:.default,handler: nil)
+        let okAction = UIAlertAction(title: VMCTitles.OkBtnTitle,style:.default,handler: nil)
         alertVC.addAction(okAction)
         present(
             alertVC,

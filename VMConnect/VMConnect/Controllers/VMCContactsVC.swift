@@ -75,7 +75,7 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
         cell.jobLabel.text = self.isSearch ? self.filterContactsList[indexPath.row].jobtitle ?? "" : self.contactsList[indexPath.row].jobtitle ?? ""
         if let imgUrlString = self.isSearch ? self.filterContactsList[indexPath.row].avatar : self.contactsList[indexPath.row].avatar{
             if !(imgUrlString.isEmpty){
-                cell.profileImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: "contactPlaceHolder"))
+                cell.profileImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.ContactImagePlaceHolder))
             }
         }
         return cell
@@ -95,8 +95,8 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     
     @IBAction func logOutBtnClick(sender: UIButton){
         DispatchQueue.main.async {
-            let sheet = UIAlertController(title: "Log Out", message: VMCMessages.logOutMsg, preferredStyle: .actionSheet)
-            sheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (action) in
+            let sheet = UIAlertController(title: VMCTitles.LogoutTitle, message: VMCMessages.logOutMsg, preferredStyle: .actionSheet)
+            sheet.addAction(UIAlertAction(title: VMCTitles.LogoutTitle, style: .destructive, handler: { (action) in
                 UserDefaults.standard.set(false, forKey: "isLogged")
                 UserDefaults.standard.synchronize()
                 if let loginVC = VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.loginScreenID) as? VMCLoginVC{
@@ -104,7 +104,7 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
                     sceneDelegate.window?.rootViewController = loginVC
                 }
             }))
-            sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            sheet.addAction(UIAlertAction(title: VMCTitles.CancelBtnTitle, style: .cancel, handler: { (action) in
                 sheet.dismiss(animated: true, completion: nil)
             }))
             if let popoverPresentationController = sheet.popoverPresentationController {
@@ -174,7 +174,7 @@ extension VMCContactsVC: UISearchBarDelegate, UISearchDisplayDelegate{
 extension VMCContactsVC: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let MyString = [NSAttributedString.Key.font : VMCFonts.Helvetica.regular(18), NSAttributedString.Key.foregroundColor : VMCColors.PlaceHolderTextColor]
-        let attributedString = NSMutableAttributedString(string:self.isSearch ? "No results found" : "Connection list is empty", attributes:MyString)
+        let attributedString = NSMutableAttributedString(string:self.isSearch ? VMCMessages.searchResultEmptyMsg : VMCMessages.connectionListEmptyMsg, attributes:MyString)
         return attributedString
     }
 }

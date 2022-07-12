@@ -113,10 +113,10 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBAction func deleteConnectionBtnClick(sender: UIButton){
         let alertController = UIAlertController(title: VMCMessages.appName, message: VMCMessages.connectionDeleteMsg, preferredStyle: UIAlertController.Style.alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+        let cancelAction = UIAlertAction(title: VMCTitles.CancelBtnTitle, style: .cancel, handler: {
             alert -> Void in
         })
-        let okAction = UIAlertAction(title: "Delete", style: .destructive, handler: {
+        let okAction = UIAlertAction(title: VMCTitles.DeleteBtnTitle, style: .destructive, handler: {
             alert -> Void in
             SVProgressHUD.showSuccess(withStatus: VMCMessages.connectionDeletedConfirmMsg)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

@@ -99,7 +99,7 @@ class VMCRoomsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 extension VMCRoomsVC: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let MyString = [NSAttributedString.Key.font : VMCFonts.Helvetica.regular(18), NSAttributedString.Key.foregroundColor : VMCColors.PlaceHolderTextColor]
-        let attributedString = NSMutableAttributedString(string:"Rooms list is empty", attributes:MyString)
+        let attributedString = NSMutableAttributedString(string:VMCMessages.roomListEmptyMsg, attributes:MyString)
         return attributedString
     }
 }

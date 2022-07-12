@@ -23,6 +23,23 @@ struct VMCMessages {
     static let lastNameEmptyMsg = "Please enter your last name"
     static let favColorEmptyMsg = "Please enter your favorite color"
     static let cameraUnavailableMsg = "Sorry, this device has no camera"
+    static let roomListEmptyMsg = "Rooms list is empty"
+    static let connectionListEmptyMsg = "Connection list is empty"
+    static let searchResultEmptyMsg = "No results found"
+}
+
+struct VMCTitles {
+    static let LogoutTitle  = "Log Out"
+    static let CancelBtnTitle = "Cancel"
+    static let DeleteBtnTitle = "Delete"
+    static let AddConnectionTitle = "Add Connection"
+    static let EditConnectionTitle = "Edit Connection"
+    static let ContactImagePlaceHolder = "contactPlaceHolder"
+    static let ChooseOption = "Choose Option"
+    static let PhotoLibrary = "Photo Library"
+    static let Camera = "Camera"
+    static let NoCamera = "No Camera"
+    static let OkBtnTitle = "OK"
 }
 
 //MARK: COLORS
