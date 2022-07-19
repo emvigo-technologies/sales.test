@@ -114,7 +114,7 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         self.openAlertView(title: VMCMessages.appName,
                            message: VMCMessages.connectionDeleteMsg,
                            alertStyle: .alert,
-                           actionTitles: [VMCTitles.CancelBtnTitle, VMCTitles.DeleteBtnTitle],
+                           actionTitles: [VMCTitles.cancelBtnTitle, VMCTitles.deleteBtnTitle],
                            actionStyles: [.cancel, .destructive],
                            actions: [
                             {_ in

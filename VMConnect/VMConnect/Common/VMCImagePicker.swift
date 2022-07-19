@@ -19,11 +19,11 @@ open class VMCImagePicker: NSObject {
     }
     
     public func present(from sourceView: UIView) {
-        self.presentationController?.openAlertView(title:VMCTitles.ChooseOption,
+        self.presentationController?.openAlertView(title:VMCTitles.chooseOption,
                            message: "",
                            alertStyle: .actionSheet,
-                           actionTitles: [VMCTitles.PhotoLibrary, VMCTitles.Camera],
-                           actionStyles: [.default, .default],
+                                                   actionTitles: [VMCTitles.photoLibrary, VMCTitles.camera, VMCTitles.cancelBtnTitle],
+                                                   actionStyles: [.default, .default,.cancel],
                            actions: [
                             {_ in
                                 self.pickerController.allowsEditing = true
@@ -38,9 +38,11 @@ open class VMCImagePicker: NSObject {
                                     self.presentationController?.present(self.pickerController, animated: true)
                                 }
                                 else{
-                                    self.presentationController?.openAlertView(title: VMCTitles.NoCamera, message: VMCMessages.cameraUnavailableMsg, alertStyle: .alert, actionTitles: [VMCTitles.OkBtnTitle], actionStyles: [.default], actions: [{_ in }], newSourceRect: CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0))
+                                    self.presentationController?.openAlertView(title: VMCTitles.noCamera, message: VMCMessages.cameraUnavailableMsg, alertStyle: .alert, actionTitles: [VMCTitles.okBtnTitle], actionStyles: [.default], actions: [{_ in }], newSourceRect: CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0))
                                 }
-                            }
+                            },
+                            {_ in
+                            },
                            ], newSourceRect: CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0))
     }
     

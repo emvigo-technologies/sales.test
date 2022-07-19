@@ -67,7 +67,7 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
         cell.jobLabel.text = self.isSearch ? self.filterContactsList[indexPath.row].jobtitle ?? "" : self.contactsList[indexPath.row].jobtitle ?? ""
         if let imgUrlString = self.isSearch ? self.filterContactsList[indexPath.row].avatar : self.contactsList[indexPath.row].avatar{
             if !(imgUrlString.isEmpty){
-                cell.profileImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.ContactImagePlaceHolder))
+                cell.profileImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.contactImagePlaceHolder))
             }
         }
         return cell
@@ -87,10 +87,10 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     
     @IBAction func logOutBtnClick(sender: UIButton){
         DispatchQueue.main.async {
-            self.openAlertView(title: VMCTitles.LogoutTitle,
+            self.openAlertView(title: VMCTitles.logoutTitle,
                                message: VMCMessages.logOutMsg,
                                alertStyle: .actionSheet,
-                               actionTitles: [VMCTitles.LogoutTitle,  VMCTitles.CancelBtnTitle],
+                               actionTitles: [VMCTitles.logoutTitle,  VMCTitles.cancelBtnTitle],
                                actionStyles: [.destructive, .cancel],
                                actions: [
                                 {_ in

@@ -30,20 +30,19 @@ struct VMCMessages {
 }
 
 struct VMCTitles {
-    static let LogoutTitle  = "Log Out"
-    static let CancelBtnTitle = "Cancel"
-    static let DeleteBtnTitle = "Delete"
-    static let AddConnectionTitle = "Add Connection"
-    static let EditConnectionTitle = "Edit Connection"
-    static let ContactImagePlaceHolder = "contactPlaceHolder"
-    static let ChooseOption = "Choose Option"
-    static let PhotoLibrary = "Photo Library"
-    static let Camera = "Camera"
-    static let NoCamera = "No Camera"
-    static let OkBtnTitle = "OK"
-    static let CameraAccess = "Turn on Camera Access"
+    static let logoutTitle  = "Log Out"
+    static let cancelBtnTitle = "Cancel"
+    static let deleteBtnTitle = "Delete"
+    static let addConnectionTitle = "Add Connection"
+    static let editConnectionTitle = "Edit Connection"
+    static let contactImagePlaceHolder = "contactPlaceHolder"
+    static let chooseOption = "Choose Option"
+    static let photoLibrary = "Photo Library"
+    static let camera = "Camera"
+    static let noCamera = "No Camera"
+    static let okBtnTitle = "OK"
+    static let cameraAccess = "Turn on Camera Access"
     static let openSettings = "Open Settings"
-   
 }
 
 //MARK: COLORS

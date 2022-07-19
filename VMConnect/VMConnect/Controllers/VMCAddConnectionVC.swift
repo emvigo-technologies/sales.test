@@ -29,10 +29,10 @@ class VMCAddConnectionVC: UIViewController{
     
     func setDataInUI(){
         if self.isEdit{
-            self.title = VMCTitles.EditConnectionTitle
+            self.title = VMCTitles.editConnectionTitle
             if let imgUrlString = self.selectedContactData?.avatar{
                 if !(imgUrlString.isEmpty){
-                    self.userImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.ContactImagePlaceHolder))
+                    self.userImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.contactImagePlaceHolder))
                 }
             }
             self.firstNameTextField.text = self.selectedContactData?.firstName ?? ""
@@ -40,7 +40,7 @@ class VMCAddConnectionVC: UIViewController{
             self.emailTextField.text = self.selectedContactData?.email ?? ""
             self.favColorTextField.text = self.selectedContactData?.favouriteColor ?? ""
         }else{
-            self.title = VMCTitles.AddConnectionTitle
+            self.title = VMCTitles.addConnectionTitle
         }
     }
     
