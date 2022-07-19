@@ -125,7 +125,7 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
                                     self.navigationController?.popViewController(animated: true)
                                 }
                             }
-                           ], senderType: sender)
+                           ], newSourceRect: sender.bounds)
         
     }
     

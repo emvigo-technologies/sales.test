@@ -103,7 +103,7 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
                                 },
                                 {_ in
                                 }
-                               ], senderType: sender)
+                               ], newSourceRect: sender.bounds)
         }
     }
     

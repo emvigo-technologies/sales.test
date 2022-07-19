@@ -16,74 +16,37 @@ open class VMCImagePicker: NSObject {
         self.presentationController = presentationController
         self.delegate = delegate
         self.pickerController.delegate = self
-        self.pickerController.allowsEditing = true
-        self.pickerController.mediaTypes = ["public.image"]
-    }
-    
-    private func action(for type: UIImagePickerController.SourceType, title: String) -> UIAlertAction? {
-        guard UIImagePickerController.isSourceTypeAvailable(type) else {
-            return nil
-        }
-        return UIAlertAction(title: title, style: .default) { [unowned self] _ in
-            self.pickerController.sourceType = type
-            if type == .camera {
-                self.checkCameraPermission()
-            }
-            self.presentationController?.present(self.pickerController, animated: true)
-        }
     }
     
     public func present(from sourceView: UIView) {
-       
-        let alertController = UIAlertController(title: VMCTitles.ChooseOption, message: nil, preferredStyle: .actionSheet)
-        
-        if let action = self.action(for: .photoLibrary, title: VMCTitles.PhotoLibrary)
-        {
-            alertController.addAction(action)
-        }
-        if let action = self.action(for: .camera, title: VMCTitles.Camera)
-        {
-            alertController.addAction(action)
-        }
-       
-        alertController.addAction(UIAlertAction(title: VMCTitles.CancelBtnTitle, style: .cancel, handler: nil))
-    
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = sourceView
-            popoverController.sourceRect = CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-        self.presentationController?.present(alertController, animated: true)
+        self.presentationController?.openAlertView(title:VMCTitles.ChooseOption,
+                           message: "",
+                           alertStyle: .actionSheet,
+                           actionTitles: [VMCTitles.PhotoLibrary, VMCTitles.Camera],
+                           actionStyles: [.default, .default],
+                           actions: [
+                            {_ in
+                                self.pickerController.allowsEditing = true
+                                self.pickerController.sourceType = .photoLibrary
+                                self.presentationController?.present(self.pickerController, animated: true)
+                            },
+                            {_ in
+                                if UIImagePickerController.availableCaptureModes(for: .rear) != nil{
+                                    self.pickerController.allowsEditing = false
+                                    self.pickerController.sourceType = .camera
+                                    self.pickerController.cameraCaptureMode = .photo
+                                    self.presentationController?.present(self.pickerController, animated: true)
+                                }
+                                else{
+                                    self.presentationController?.openAlertView(title: VMCTitles.NoCamera, message: VMCMessages.cameraUnavailableMsg, alertStyle: .alert, actionTitles: [VMCTitles.OkBtnTitle], actionStyles: [.default], actions: [{_ in }], newSourceRect: CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0))
+                                }
+                            }
+                           ], newSourceRect: CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0))
     }
     
     private func pickerController(_ controller: UIImagePickerController, didSelect image: UIImage?) {
         controller.dismiss(animated: true, completion: nil)
         self.delegate?.didSelectImage(image: image)
-    }
-}
-
-extension VMCImagePicker {
-    func checkCameraPermission() {
-        let cameraMediaType = AVMediaType.video
-        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: cameraMediaType)
-        switch cameraAuthorizationStatus {
-        case .denied:
-            let alert = UIAlertController.init(title: VMCTitles.CameraAccess, message: VMCMessages.cameraAccessMsg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction.init(title: VMCTitles.CancelBtnTitle, style: .cancel, handler: { (_) in
-            }))
-            alert.addAction(UIAlertAction.init(title: VMCTitles.openSettings, style: .default, handler: { (_) in
-                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                    return
-                }
-                if UIApplication.shared.canOpenURL(settingsUrl) {
-                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                    })
-                }
-            }))
-            self.presentationController?.present(alert, animated: true, completion: nil)
-        default:
-            break
-        }
     }
 }
 

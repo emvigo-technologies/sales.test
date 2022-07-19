@@ -88,7 +88,7 @@ extension UIViewController{
                           alertStyle:UIAlertController.Style,
                           actionTitles:[String],
                           actionStyles:[UIAlertAction.Style],
-                              actions: [((UIAlertAction) -> Void)], senderType:UIControl){
+                              actions: [((UIAlertAction) -> Void)], newSourceRect: CGRect){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: alertStyle)
         for(index, indexTitle) in actionTitles.enumerated(){
             let action = UIAlertAction(title: indexTitle, style: actionStyles[index], handler: actions[index])
@@ -96,7 +96,8 @@ extension UIViewController{
         }
         if let popoverPresentationController = alertController.popoverPresentationController {
             popoverPresentationController.sourceView = self.view
-            popoverPresentationController.sourceRect = senderType.bounds
+            popoverPresentationController.sourceRect = newSourceRect
+            popoverPresentationController.permittedArrowDirections = []
         }
         self.present(alertController, animated: true)
     }
