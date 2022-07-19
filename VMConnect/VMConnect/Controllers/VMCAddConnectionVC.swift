@@ -1,7 +1,7 @@
 import UIKit
 import SwifterSwift
 
-class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class VMCAddConnectionVC: UIViewController{
     
     @IBOutlet weak var firstNameTextField: VMCTextFields!
     @IBOutlet weak var lastNameTextField: VMCTextFields!
@@ -10,15 +10,24 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet var headerView: UIView!
     @IBOutlet var bgView: UIView!
-    let imagePicker = UIImagePickerController()
     var isEdit = false
     var selectedContactData: VMCContactModelElement?
+    var imagePicker: VMCImagePicker!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bgView.layer.cornerRadius = 30
         self.bgView.addShadow(ofColor: VMCColors.ListViewShadowColor, radius: 4.0, offset: CGSize(width:0,height:0), opacity: 0.2)
-        self.imagePicker.delegate = self
+        self.imagePicker = VMCImagePicker(presentationController: self, delegate: self)
+        self.setDataInUI()
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.headerView.roundCorners( [.bottomLeft, .bottomRight], radius: 30.0)
+    }
+    
+    func setDataInUI(){
         if self.isEdit{
             self.title = VMCTitles.EditConnectionTitle
             if let imgUrlString = self.selectedContactData?.avatar{
@@ -33,69 +42,10 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
         }else{
             self.title = VMCTitles.AddConnectionTitle
         }
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewDidLayoutSubviews() {
-        self.headerView.roundCorners( [.bottomLeft, .bottomRight], radius: 30.0)
     }
     
     @IBAction func cameraButtonClick(_ sender: UIButton) {
-        let alertController = UIAlertController(title: VMCTitles.ChooseOption, message: "", preferredStyle: UIAlertController.Style.actionSheet)
-        let libAction = UIAlertAction(title: VMCTitles.PhotoLibrary, style: UIAlertAction.Style.default, handler: {
-            alert -> Void in
-            self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .photoLibrary
-            self.present(self.imagePicker, animated: true, completion: nil)
-        })
-        let cameraAction = UIAlertAction(title: VMCTitles.Camera, style: UIAlertAction.Style.default, handler: {
-            alert -> Void in
-            if UIImagePickerController.availableCaptureModes(for: .rear) != nil{
-                self.imagePicker.allowsEditing = false
-                self.imagePicker.sourceType = .camera
-                self.imagePicker.cameraCaptureMode = .photo
-                self.present(self.imagePicker, animated: true, completion: nil)
-            }
-            else{
-                self.noCamera()
-            }
-        })
-        let cancelAction = UIAlertAction(title: VMCTitles.CancelBtnTitle, style: UIAlertAction.Style.cancel, handler: {
-            alert -> Void in
-        })
-        alertController.addAction(libAction)
-        alertController.addAction(cameraAction)
-        alertController.addAction(cancelAction)
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let pickedImage = info[.editedImage] as? UIImage{
-            self.userImage.image = pickedImage.compressed(quality: 0.5)
-        }
-        dismiss(animated: true, completion: nil)
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func noCamera(){
-        let alertVC = UIAlertController(
-            title: VMCTitles.NoCamera,
-            message: VMCMessages.cameraUnavailableMsg,
-            preferredStyle: .alert)
-        let okAction = UIAlertAction(title: VMCTitles.OkBtnTitle,style:.default,handler: nil)
-        alertVC.addAction(okAction)
-        present(
-            alertVC,
-            animated: true,
-            completion: nil)
+        self.imagePicker.present(from: self.view)
     }
     
     @IBAction func saveBtnClick(sender: UIButton){
@@ -120,6 +70,14 @@ class VMCAddConnectionVC: UIViewController,UIImagePickerControllerDelegate,UINav
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.navigationController?.popViewController(animated: true)
             }
+        }
+    }
+}
+
+extension VMCAddConnectionVC: ImagePickerDelegate{
+    func didSelectImage(image: UIImage?) {
+        if let selectedImage = image {
+            self.userImage.image = selectedImage.compressed(quality: 0.5)
         }
     }
 }

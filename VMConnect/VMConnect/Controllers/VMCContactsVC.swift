@@ -87,23 +87,23 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     
     @IBAction func logOutBtnClick(sender: UIButton){
         DispatchQueue.main.async {
-            let sheet = UIAlertController(title: VMCTitles.LogoutTitle, message: VMCMessages.logOutMsg, preferredStyle: .actionSheet)
-            sheet.addAction(UIAlertAction(title: VMCTitles.LogoutTitle, style: .destructive, handler: { (action) in
-                UserDefaults.standard.set(false, forKey: "isLogged")
-                UserDefaults.standard.synchronize()
-                if let loginVC = VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.loginScreenID) as? VMCLoginVC{
-                    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
-                    sceneDelegate.window?.rootViewController = loginVC
-                }
-            }))
-            sheet.addAction(UIAlertAction(title: VMCTitles.CancelBtnTitle, style: .cancel, handler: { (action) in
-                sheet.dismiss(animated: true, completion: nil)
-            }))
-            if let popoverPresentationController = sheet.popoverPresentationController {
-                popoverPresentationController.sourceView = self.view
-                popoverPresentationController.sourceRect = sender.bounds
-            }
-            self.present(sheet, animated: true, completion: nil)
+            self.openAlertView(title: VMCTitles.LogoutTitle,
+                               message: VMCMessages.logOutMsg,
+                               alertStyle: .actionSheet,
+                               actionTitles: [VMCTitles.LogoutTitle,  VMCTitles.CancelBtnTitle],
+                               actionStyles: [.destructive, .cancel],
+                               actions: [
+                                {_ in
+                                    UserDefaults.standard.set(false, forKey: "isLogged")
+                                    UserDefaults.standard.synchronize()
+                                    if let loginVC = VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.loginScreenID) as? VMCLoginVC{
+                                        let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+                                        sceneDelegate.window?.rootViewController = loginVC
+                                    }
+                                },
+                                {_ in
+                                }
+                               ], senderType: sender)
         }
     }
     

@@ -82,3 +82,22 @@ extension UIImageView{
     }
 }
 
+extension UIViewController{
+    public func openAlertView(title: String,
+                          message: String,
+                          alertStyle:UIAlertController.Style,
+                          actionTitles:[String],
+                          actionStyles:[UIAlertAction.Style],
+                              actions: [((UIAlertAction) -> Void)], senderType:UIControl){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: alertStyle)
+        for(index, indexTitle) in actionTitles.enumerated(){
+            let action = UIAlertAction(title: indexTitle, style: actionStyles[index], handler: actions[index])
+            alertController.addAction(action)
+        }
+        if let popoverPresentationController = alertController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            popoverPresentationController.sourceRect = senderType.bounds
+        }
+        self.present(alertController, animated: true)
+    }
+}

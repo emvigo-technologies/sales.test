@@ -111,20 +111,22 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     @IBAction func deleteConnectionBtnClick(sender: UIButton){
-        let alertController = UIAlertController(title: VMCMessages.appName, message: VMCMessages.connectionDeleteMsg, preferredStyle: UIAlertController.Style.alert)
-        let cancelAction = UIAlertAction(title: VMCTitles.CancelBtnTitle, style: .cancel, handler: {
-            alert -> Void in
-        })
-        let okAction = UIAlertAction(title: VMCTitles.DeleteBtnTitle, style: .destructive, handler: {
-            alert -> Void in
-            VMCMethods.shared.progressHudAction(hudType: "success", message: VMCMessages.connectionDeletedConfirmMsg)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.navigationController?.popViewController(animated: true)
-            }
-        })
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        self.openAlertView(title: VMCMessages.appName,
+                           message: VMCMessages.connectionDeleteMsg,
+                           alertStyle: .alert,
+                           actionTitles: [VMCTitles.CancelBtnTitle, VMCTitles.DeleteBtnTitle],
+                           actionStyles: [.cancel, .destructive],
+                           actions: [
+                            {_ in
+                            },
+                            {_ in
+                                VMCMethods.shared.progressHudAction(hudType: "success", message: VMCMessages.connectionDeletedConfirmMsg)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                            }
+                           ], senderType: sender)
+        
     }
     
     @IBAction func editConnectionBtnClick(sender: UIButton){

@@ -26,6 +26,7 @@ struct VMCMessages {
     static let roomListEmptyMsg = "Rooms list is empty"
     static let connectionListEmptyMsg = "Connection list is empty"
     static let searchResultEmptyMsg = "No results found"
+    static let cameraAccessMsg = "Enable camera access to VMConnect, so you can update the profile picture."
 }
 
 struct VMCTitles {
@@ -40,6 +41,9 @@ struct VMCTitles {
     static let Camera = "Camera"
     static let NoCamera = "No Camera"
     static let OkBtnTitle = "OK"
+    static let CameraAccess = "Turn on Camera Access"
+    static let openSettings = "Open Settings"
+   
 }
 
 //MARK: COLORS
