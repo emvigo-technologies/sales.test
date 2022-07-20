@@ -20,7 +20,7 @@ class VMCLoginVC: UIViewController {
 
 extension VMCLoginVC: LoginViewModelProtocol{
     func loginResponse(message:String,status:Bool){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if let homeTab = VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.hometabBarNavigationID) as? UITabBarController{
                 let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
                 sceneDelegate.window?.rootViewController = homeTab

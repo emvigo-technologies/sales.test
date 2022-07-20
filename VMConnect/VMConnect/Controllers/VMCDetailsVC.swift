@@ -1,11 +1,11 @@
 import UIKit
-import MessageUI
 
 class VMCDetailsVC: UIViewController{
     
     @IBOutlet var bgView: UIView!
     var contactData: VMCContactModelElement?
     var titleList = ["Created","Mail","Favorite Color"]
+    var mailManager: VMCMailManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,21 +25,25 @@ class VMCDetailsVC: UIViewController{
     }
     
     @IBAction func mailBtnClick(sender: UIButton){
-        if !MFMailComposeViewController.canSendMail(){
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.mailUnavailableMsg)
-        } else{
-            openMailComposer()
+        if let mailData = VMCMailManager(mailData: MailData(recipients:self.contactData?.email ?? "", subject: "", body: "Hello, \(self.contactData?.firstName ?? "")" + "\(self.contactData?.lastName ?? "")")){
+            self.mailManager = mailData
+            mailManager?.send(on: self, completion: { result in
+                switch result{
+                case .failure(let error):
+                     print(error.localizedDescription)
+                     self.dismiss(animated: true, completion: nil)
+                     break
+                case .success(let mailResult):
+                    print(mailResult)
+                    self.dismiss(animated: true, completion: nil)
+                    break
+                }
+                self.mailManager = nil
+            })
         }
-    }
-    
-    func openMailComposer()  {
-        let mailComposeVC = MFMailComposeViewController()
-        mailComposeVC.mailComposeDelegate = self
-        mailComposeVC.setToRecipients([self.contactData?.email ?? ""])
-        mailComposeVC.setSubject("")
-        let msgText = "Hello, \(self.contactData?.firstName ?? "")" + "\(self.contactData?.lastName ?? "")"
-        mailComposeVC.setMessageBody(msgText, isHTML: false)
-        present(mailComposeVC, animated: true, completion: nil)
+        else{
+            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.mailUnavailableMsg)
+        }
     }
     
     @IBAction func shareConnectionBtnClick(sender: UIButton){
@@ -133,11 +137,5 @@ extension VMCDetailsVC: UITableViewDelegate,UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
-    }
-}
-
-extension VMCDetailsVC: MFMailComposeViewControllerDelegate {
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-         dismiss(animated: true, completion: nil)
     }
 }

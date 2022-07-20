@@ -36,6 +36,7 @@
 		686E0C712887C20900DB0B45 /* VMCContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686E0C702887C20900DB0B45 /* VMCContactsViewModel.swift */; };
 		686E0C732887C88000DB0B45 /* VMCRoomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686E0C722887C88000DB0B45 /* VMCRoomsViewModel.swift */; };
 		686E0C752887CC2300DB0B45 /* VMCAddConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686E0C742887CC2300DB0B45 /* VMCAddConnectionViewModel.swift */; };
+		686E0C772887D3C200DB0B45 /* VMCMailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686E0C762887D3C200DB0B45 /* VMCMailManager.swift */; };
 		68F6B22C288703BE00C90F0E /* VMCImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F6B22B288703BE00C90F0E /* VMCImagePicker.swift */; };
 		68F6B22E2887205D00C90F0E /* VMCExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F6B22D2887205D00C90F0E /* VMCExtensions.swift */; };
 		DF73B1C8D0EE101249751A74 /* Pods_VMConnect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97A2D9B992C9336454DAB1E9 /* Pods_VMConnect.framework */; };
@@ -75,6 +76,7 @@
 		686E0C702887C20900DB0B45 /* VMCContactsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMCContactsViewModel.swift; sourceTree = "<group>"; };
 		686E0C722887C88000DB0B45 /* VMCRoomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMCRoomsViewModel.swift; sourceTree = "<group>"; };
 		686E0C742887CC2300DB0B45 /* VMCAddConnectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMCAddConnectionViewModel.swift; sourceTree = "<group>"; };
+		686E0C762887D3C200DB0B45 /* VMCMailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMCMailManager.swift; sourceTree = "<group>"; };
 		68F6B22B288703BE00C90F0E /* VMCImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMCImagePicker.swift; sourceTree = "<group>"; };
 		68F6B22D2887205D00C90F0E /* VMCExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMCExtensions.swift; sourceTree = "<group>"; };
 		97A2D9B992C9336454DAB1E9 /* Pods_VMConnect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VMConnect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +192,7 @@
 				1432BFDE287D873200CBDF6D /* VMCConfig.swift */,
 				1432BFE2287D934400CBDF6D /* VMCTextFields.swift */,
 				68F6B22B288703BE00C90F0E /* VMCImagePicker.swift */,
+				686E0C762887D3C200DB0B45 /* VMCMailManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				14EF44DC287BFB6D006BD426 /* VMCSubDetailTVCell.swift in Sources */,
 				14D419DA2878198B00CA33DB /* VMCContactsModel.swift in Sources */,
 				68F6B22C288703BE00C90F0E /* VMCImagePicker.swift in Sources */,
+				686E0C772887D3C200DB0B45 /* VMCMailManager.swift in Sources */,
 				686E0C732887C88000DB0B45 /* VMCRoomsViewModel.swift in Sources */,
 				14C8D144287721AF00ED15E0 /* VMCMyConnectionsTVCell.swift in Sources */,
 				14F9590B2879EEC800C771B0 /* VMCDetailHeaderTVCell.swift in Sources */,
