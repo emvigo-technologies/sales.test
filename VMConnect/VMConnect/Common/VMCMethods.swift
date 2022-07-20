@@ -4,6 +4,7 @@ import Kingfisher
 import SVProgressHUD
 
 class VMCMethods: NSObject {
+    
     static let shared = VMCMethods()
     
     func isValidEmail(emailText: String) -> Bool {
