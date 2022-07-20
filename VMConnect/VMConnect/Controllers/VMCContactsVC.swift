@@ -132,10 +132,15 @@ extension VMCContactsVC: UISearchBarDelegate, UISearchDisplayDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count == 0{
             self.searchText = ""
-            self.searchBar.resignFirstResponder()
             self.isSearch = false
             self.connectionsCountLbl.text = "Connections (\(self.contactsList.count))"
             self.tblView.reloadData()
+        }else{
+            if searchText.count > 1{
+                self.searchText = searchBar.text ?? ""
+                self.isSearch = true
+                self.updateSearchResults(searchString: self.searchText)
+            }
         }
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {

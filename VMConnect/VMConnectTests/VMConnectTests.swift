@@ -26,7 +26,33 @@ class VMConnectTests: XCTestCase {
         XCTAssertEqual(loginVC?.emailTextField?.text ?? "", "", "Failed - Email text field was not empty when the view controller initially loaded")
         XCTAssertEqual(loginVC?.passwordTextField?.text ?? "", "", "Failed - Password text field was not empty when the view controller initially loaded")
     }
-
+    
+    func testContactListFetch() throws{
+        let expectation = self.expectation(description: "API Call complete")
+        VMCApiManager.getContactsData(completion: { message, success, data in
+            XCTAssert(success == true, "API Call failed")
+            expectation.fulfill()
+        })
+        waitForExpectations(timeout: 5){ error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func testRoomListFetch() throws{
+        let expectation = self.expectation(description: "API Call complete")
+        VMCApiManager.getRoomsData(completion: { message, success, data in
+            XCTAssert(success == true, "API Call failed")
+            expectation.fulfill()
+        })
+        waitForExpectations(timeout: 5){ error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
