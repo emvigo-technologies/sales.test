@@ -1,10 +1,9 @@
 import UIKit
-import Alamofire
 import Kingfisher
 import DZNEmptyDataSet
 
-class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
+class VMCContactsVC: UIViewController{
+
     @IBOutlet var tblView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var connectionsCountLbl: UILabel!
@@ -13,76 +12,30 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
     var refreshControl = UIRefreshControl()
     var searchText = String()
     var isSearch = false
-    
+    private var contactsVM: VMCContactsViewModel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.contactsVM = VMCContactsViewModel(withDelegate: self)
+        self.initialConfig()
+        
+        //MARK: Get Contact List
+        self.contactsVM.fetchContacts()
+        // Do any additional setup after loading the view.
+    }
+    
+    func initialConfig(){
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "")
         refreshControl.addTarget(self, action: #selector(refreshContactList), for: .valueChanged)
         tblView.addSubview(refreshControl)
         self.tblView.emptyDataSetDelegate = self
         self.tblView.emptyDataSetSource = self
-        self.getContacts()
-        // Do any additional setup after loading the view.
     }
     
     @objc func refreshContactList(sender:UIRefreshControl) {
         self.refreshControl.endRefreshing()
-        self.getContacts()
-    }
-    
-    //MARKS:GET CONTACTS LIST
-    func getContacts(){
-        VMCMethods.shared.progressHudAction(hudType: "show", message: "")
-        VMCApiManager.getContactsData(completion: { message, success, data in
-            if success{
-                VMCMethods.shared.progressHudAction(hudType: "dismiss", message: "")
-                self.contactsList = data ?? []
-                //Contact List Sorting
-                self.contactsList = self.contactsList.sorted(by: { (Obj1, Obj2) -> Bool in
-                    let Obj1_Name = Obj1.firstName ?? ""
-                    let Obj2_Name = Obj2.firstName ?? ""
-                    return (Obj1_Name.localizedCaseInsensitiveCompare(Obj2_Name) == .orderedAscending)
-                })
-                self.connectionsCountLbl.text = "Connections (\(self.contactsList.count))"
-                self.tblView.reloadData()
-            }else{
-                VMCMethods.shared.progressHudAction(hudType: "error", message: message ?? "")
-            }
-        })
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.isSearch ? self.filterContactsList.count : self.contactsList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! VMCMyConnectionsTVCell
-        cell.selectionStyle = .none
-        cell.nameLabel.text = self.isSearch ? "\(self.filterContactsList[indexPath.row].firstName ?? "") " + "\(self.filterContactsList[indexPath.row].lastName ?? "")" : "\(self.contactsList[indexPath.row].firstName ?? "") " + "\(self.contactsList[indexPath.row].lastName ?? "")"
-        cell.jobLabel.text = self.isSearch ? self.filterContactsList[indexPath.row].jobtitle ?? "" : self.contactsList[indexPath.row].jobtitle ?? ""
-        if let imgUrlString = self.isSearch ? self.filterContactsList[indexPath.row].avatar : self.contactsList[indexPath.row].avatar{
-            if !(imgUrlString.isEmpty){
-                cell.profileImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.contactImagePlaceHolder))
-            }
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let VC =  VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.connectionDetailScreenID) as? VMCDetailsVC {
-            VC.hidesBottomBarWhenPushed = true
-            VC.contactData = self.isSearch ? self.filterContactsList[indexPath.row] : self.contactsList[indexPath.row]
-            self.navigationController?.pushViewController(VC, animated: true)
-        }
+        self.contactsVM.fetchContacts()
     }
     
     @IBAction func logOutBtnClick(sender: UIButton){
@@ -122,6 +75,45 @@ class VMCContactsVC: UIViewController,UITableViewDelegate,UITableViewDataSource 
             self.filterContactsList = filterData
             self.connectionsCountLbl.text = "Connections (\(self.filterContactsList.count))"
             self.tblView.reloadData()
+        }
+    }
+}
+
+extension VMCContactsVC: ContactsViewModelProtocol{
+    func contactListResponse(message: String, status: Bool, response: [VMCContactModelElement]) {
+        self.contactsList = response
+        self.connectionsCountLbl.text = "Connections (\(self.contactsList.count))"
+        self.tblView.reloadData()
+    }
+}
+
+extension VMCContactsVC: UITableViewDelegate, UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.isSearch ? self.filterContactsList.count : self.contactsList.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! VMCMyConnectionsTVCell
+        cell.selectionStyle = .none
+        cell.nameLabel.text = self.isSearch ? "\(self.filterContactsList[indexPath.row].firstName ?? "") " + "\(self.filterContactsList[indexPath.row].lastName ?? "")" : "\(self.contactsList[indexPath.row].firstName ?? "") " + "\(self.contactsList[indexPath.row].lastName ?? "")"
+        cell.jobLabel.text = self.isSearch ? self.filterContactsList[indexPath.row].jobtitle ?? "" : self.contactsList[indexPath.row].jobtitle ?? ""
+        if let imgUrlString = self.isSearch ? self.filterContactsList[indexPath.row].avatar : self.contactsList[indexPath.row].avatar{
+            if !(imgUrlString.isEmpty){
+                cell.profileImage.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCTitles.contactImagePlaceHolder))
+            }
+        }
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let VC =  VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.connectionDetailScreenID) as? VMCDetailsVC {
+            VC.hidesBottomBarWhenPushed = true
+            VC.contactData = self.isSearch ? self.filterContactsList[indexPath.row] : self.contactsList[indexPath.row]
+            self.navigationController?.pushViewController(VC, animated: true)
         }
     }
 }

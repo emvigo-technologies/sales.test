@@ -13,18 +13,24 @@ class VMCAddConnectionVC: UIViewController{
     var isEdit = false
     var selectedContactData: VMCContactModelElement?
     var imagePicker: VMCImagePicker!
+    private var addConnectionVM: VMCAddConnectionViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.bgView.layer.cornerRadius = 30
-        self.bgView.addShadow(ofColor: VMCColors.ListViewShadowColor, radius: 4.0, offset: CGSize(width:0,height:0), opacity: 0.2)
-        self.imagePicker = VMCImagePicker(presentationController: self, delegate: self)
+        self.addConnectionVM = VMCAddConnectionViewModel(withDelegate: self)
+        self.initalConfig()
         self.setDataInUI()
         // Do any additional setup after loading the view.
     }
-    
+
     override func viewDidLayoutSubviews() {
         self.headerView.roundCorners( [.bottomLeft, .bottomRight], radius: 30.0)
+    }
+
+    func initalConfig(){
+        self.bgView.layer.cornerRadius = 30
+        self.bgView.addShadow(ofColor: VMCColors.ListViewShadowColor, radius: 4.0, offset: CGSize(width:0,height:0), opacity: 0.2)
+        self.imagePicker = VMCImagePicker(presentationController: self, delegate: self)
     }
     
     func setDataInUI(){
@@ -49,27 +55,15 @@ class VMCAddConnectionVC: UIViewController{
     }
     
     @IBAction func saveBtnClick(sender: UIButton){
-        if self.firstNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.firstNameEmptyMsg)
-            self.firstNameTextField.becomeFirstResponder()
-        }else if self.lastNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.lastNameEmptyMsg)
-            self.lastNameTextField.becomeFirstResponder()
-        }else if self.emailTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
-            self.emailTextField.becomeFirstResponder()
-        }else if !VMCMethods.shared.isValidEmail(emailText: self.emailTextField.text!){
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
-            self.emailTextField.becomeFirstResponder()
-        }else if self.favColorTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.favColorEmptyMsg)
-            self.favColorTextField.becomeFirstResponder()
-        } else {
-            self.view.endEditing(true)
-            VMCMethods.shared.progressHudAction(hudType: "success", message: self.isEdit ? VMCMessages.connectionUpdatedMsg : VMCMessages.newConnectionAddedMsg)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.navigationController?.popViewController(animated: true)
-            }
+        self.view.endEditing(true)
+        addConnectionVM.connectionSaveApiCall(addConnectionVC: self, isEdit: self.isEdit)
+    }
+}
+
+extension VMCAddConnectionVC: AddConnectionViewModelProtocol{
+    func connectionSaveResponse(message: String, status: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

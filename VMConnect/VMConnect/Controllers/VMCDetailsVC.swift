@@ -1,7 +1,7 @@
 import UIKit
 import MessageUI
 
-class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class VMCDetailsVC: UIViewController{
     
     @IBOutlet var bgView: UIView!
     var contactData: VMCContactModelElement?
@@ -14,62 +14,6 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     override func viewDidLayoutSubviews() {
         self.bgView.roundCorners( [.bottomLeft, .bottomRight], radius: 30.0)
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0{
-            return 1
-        }else if section == 1{
-            return 3
-        }else{
-            return 1
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell", for: indexPath) as! VMCDetailHeaderTVCell
-            cell.selectionStyle = .none
-            if let imgUrlString = self.contactData?.avatar{
-                if !(imgUrlString.isEmpty){
-                    cell.userImageView.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: "contactPlaceHolder"))
-                }
-            }
-            cell.nameLabel.text = "\(self.contactData?.firstName ?? "")" + "\(self.contactData?.lastName ?? "")"
-            cell.jobTitleLabel.text = "\(self.contactData?.jobtitle ?? "")"
-            return cell
-        }else if indexPath.section == 1{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell0", for: indexPath) as! VMCDetailTVCell
-            cell.selectionStyle = .none
-            cell.titleLabel.text = self.titleList[indexPath.row]
-            if indexPath.row == 0{
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                let date = dateFormatter.date(from: self.contactData?.createdAt ?? "")
-                dateFormatter.dateFormat = "MMM d, yyyy"
-                let resultString = dateFormatter.string(from: date!)
-                cell.nameLabel.text = resultString
-            }else if indexPath.row == 1{
-                cell.nameLabel.text = self.contactData?.email ?? ""
-            }else{
-                cell.nameLabel.text = self.contactData?.favouriteColor?.capitalized ?? ""
-            }
-            return cell
-        }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! VMCSubDetailTVCell
-            cell.selectionStyle = .none
-            return cell
-        }
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
     @IBAction func callBtnClick(sender: UIButton){
@@ -136,6 +80,59 @@ class VMCDetailsVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             VC.selectedContactData = self.contactData
             self.navigationController?.pushViewController(VC, animated: true)
         }
+    }
+}
+
+extension VMCDetailsVC: UITableViewDelegate,UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0{
+            return 1
+        }else if section == 1{
+            return 3
+        }else{
+            return 1
+        }
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell", for: indexPath) as! VMCDetailHeaderTVCell
+            cell.selectionStyle = .none
+            if let imgUrlString = self.contactData?.avatar{
+                if !(imgUrlString.isEmpty){
+                    cell.userImageView.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: "contactPlaceHolder"))
+                }
+            }
+            cell.nameLabel.text = "\(self.contactData?.firstName ?? "")" + "\(self.contactData?.lastName ?? "")"
+            cell.jobTitleLabel.text = "\(self.contactData?.jobtitle ?? "")"
+            return cell
+        }else if indexPath.section == 1{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell0", for: indexPath) as! VMCDetailTVCell
+            cell.selectionStyle = .none
+            cell.titleLabel.text = self.titleList[indexPath.row]
+            if indexPath.row == 0{
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                let date = dateFormatter.date(from: self.contactData?.createdAt ?? "")
+                dateFormatter.dateFormat = "MMM d, yyyy"
+                let resultString = dateFormatter.string(from: date!)
+                cell.nameLabel.text = resultString
+            }else if indexPath.row == 1{
+                cell.nameLabel.text = self.contactData?.email ?? ""
+            }else{
+                cell.nameLabel.text = self.contactData?.favouriteColor?.capitalized ?? ""
+            }
+            return cell
+        }else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! VMCSubDetailTVCell
+            cell.selectionStyle = .none
+            return cell
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 
