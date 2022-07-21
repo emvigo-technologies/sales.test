@@ -19,7 +19,6 @@ class VMCRoomsVC: UIViewController{
         self.initialConfig()
         //MARK: Get Rooms List
         self.roomsVM.fetchRooms()
-        // Do any additional setup after loading the view.
     }
     
     func initialConfig(){
@@ -44,11 +43,11 @@ class VMCRoomsVC: UIViewController{
         switch self.segmentedControl.selectedSegmentIndex {
         case 0:
             self.filterRoomsList = self.roomsList.filter({$0.isOccupied == true})
-            self.occupancyCountLbl.text = "Occupied (\(self.filterRoomsList.count))"
+            self.occupancyCountLbl.text = VMCUIKeys.occupied + " (\(self.filterRoomsList.count))"
             break;
         case 1:
             self.filterRoomsList = self.roomsList.filter({$0.isOccupied == false})
-            self.occupancyCountLbl.text = "Unoccupied (\(self.filterRoomsList.count))"
+            self.occupancyCountLbl.text = VMCUIKeys.unoccupied + " (\(self.filterRoomsList.count))"
             break;
         default:
             break;
@@ -65,10 +64,10 @@ extension VMCRoomsVC: UITableViewDelegate,UITableViewDataSource{
         return self.filterRoomsList.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! VMCRoomsTVCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: VMCTableViewCells.cell, for: indexPath) as! VMCRoomsTVCell
         cell.selectionStyle = .none
-        cell.roomNameLabel.text = "Room \(indexPath.row + 1)"
-        cell.occupancyCountLabel.attributedText = VMCMethods.shared.multiFontString(firstText: "Max.Occupancy:  ", firstFont: VMCFonts.GilliSans.regular(14), firstColor: VMCColors.PlaceHolderTextColor, secondText: "\(self.filterRoomsList[indexPath.row].maxOccupancy ?? 0)", secondFont: VMCFonts.GilliSans.regular(14), secondColor:UIColor.black)
+        cell.roomNameLabel.text = VMCUIKeys.room + " \(indexPath.row + 1)"
+        cell.occupancyCountLabel.attributedText = VMCMethods.shared.multiFontString(firstText: VMCUIKeys.maxOccupancy, firstFont: VMCFonts.GilliSans.regular(14), firstColor: VMCColors.PlaceHolderTextColor, secondText: "\(self.filterRoomsList[indexPath.row].maxOccupancy ?? 0)", secondFont: VMCFonts.GilliSans.regular(14), secondColor:UIColor.black)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

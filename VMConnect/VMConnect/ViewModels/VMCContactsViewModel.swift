@@ -16,14 +16,14 @@ class VMCContactsViewModel: NSObject{
 
     //MARK: Fetch Contacts
     func fetchContacts(){
-        VMCMethods.shared.progressHudAction(hudType: "show", message: "")
+        VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.show, message: "")
         VMCApiManager.getContactsData(completion: { message, success, data in
             if success{
-                VMCMethods.shared.progressHudAction(hudType: "dismiss", message: "")
+                VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.dismiss, message: "")
                 self.contactsList = data ?? []
                 self.contactSorting()
             }else{
-                VMCMethods.shared.progressHudAction(hudType: "error", message: message ?? "")
+                VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.error, message: message ?? "")
             }
         })
     }

@@ -15,13 +15,13 @@ class VMCRoomsViewModel: NSObject{
 
     //MARK: Fetch Rooms List
     func fetchRooms(){
-        VMCMethods.shared.progressHudAction(hudType: "show", message: "")
+        VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.show, message: "")
         VMCApiManager.getRoomsData(completion: { message, success, data in
             if success{
-                VMCMethods.shared.progressHudAction(hudType: "dismiss", message: "")
+                VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.dismiss, message: "")
                 self.delegate?.roomsListResponse(message: "", status: true, response: data ?? [])
             }else{
-                VMCMethods.shared.progressHudAction(hudType: "error", message: message ?? "")
+                VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.error, message: message ?? "")
             }
         })
     }

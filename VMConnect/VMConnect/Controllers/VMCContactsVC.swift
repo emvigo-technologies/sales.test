@@ -21,7 +21,6 @@ class VMCContactsVC: UIViewController{
         
         //MARK: Get Contact List
         self.contactsVM.fetchContacts()
-        // Do any additional setup after loading the view.
     }
     
     func initialConfig(){
@@ -47,7 +46,7 @@ class VMCContactsVC: UIViewController{
                                actionStyles: [.destructive, .cancel],
                                actions: [
                                 {_ in
-                                    UserDefaults.standard.set(false, forKey: "isLogged")
+                                    UserDefaults.standard.set(false, forKey: VMCUserDefaultKeys.loginStatus)
                                     UserDefaults.standard.synchronize()
                                     if let loginVC = VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.loginScreenID) as? VMCLoginVC{
                                         let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
@@ -73,7 +72,7 @@ class VMCContactsVC: UIViewController{
                 return "\($0.firstName ?? "")\($0.lastName ?? "")".range(of: searchString, options: .caseInsensitive) != nil
             }
             self.filterContactsList = filterData
-            self.connectionsCountLbl.text = "Connections (\(self.filterContactsList.count))"
+            self.connectionsCountLbl.text = VMCUIKeys.connections + " (\(self.filterContactsList.count))"
             self.tblView.reloadData()
         }
     }
@@ -82,7 +81,7 @@ class VMCContactsVC: UIViewController{
 extension VMCContactsVC: ContactsViewModelProtocol{
     func contactListResponse(message: String, status: Bool, response: [VMCContactModelElement]) {
         self.contactsList = response
-        self.connectionsCountLbl.text = "Connections (\(self.contactsList.count))"
+        self.connectionsCountLbl.text = VMCUIKeys.connections + " (\(self.contactsList.count))"
         self.tblView.reloadData()
     }
 }
@@ -95,7 +94,7 @@ extension VMCContactsVC: UITableViewDelegate, UITableViewDataSource{
         return self.isSearch ? self.filterContactsList.count : self.contactsList.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! VMCMyConnectionsTVCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: VMCTableViewCells.cell, for: indexPath) as! VMCMyConnectionsTVCell
         cell.selectionStyle = .none
         cell.nameLabel.text = self.isSearch ? "\(self.filterContactsList[indexPath.row].firstName ?? "") " + "\(self.filterContactsList[indexPath.row].lastName ?? "")" : "\(self.contactsList[indexPath.row].firstName ?? "") " + "\(self.contactsList[indexPath.row].lastName ?? "")"
         cell.jobLabel.text = self.isSearch ? self.filterContactsList[indexPath.row].jobtitle ?? "" : self.contactsList[indexPath.row].jobtitle ?? ""
@@ -121,7 +120,7 @@ extension VMCContactsVC: UITableViewDelegate, UITableViewDataSource{
 extension VMCContactsVC: UISearchBarDelegate, UISearchDisplayDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard (searchBar.text?.count ?? 0) > 1 else{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.searchValidationMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.searchValidationMsg)
             return
         }
         self.searchText = searchBar.text ?? ""
@@ -133,7 +132,7 @@ extension VMCContactsVC: UISearchBarDelegate, UISearchDisplayDelegate{
         if searchText.count == 0{
             self.searchText = ""
             self.isSearch = false
-            self.connectionsCountLbl.text = "Connections (\(self.contactsList.count))"
+            self.connectionsCountLbl.text = VMCUIKeys.connections + " (\(self.contactsList.count))"
             self.tblView.reloadData()
         }else{
             if searchText.count > 1{
@@ -155,7 +154,7 @@ extension VMCContactsVC: UISearchBarDelegate, UISearchDisplayDelegate{
         self.searchText = ""
         self.searchBar.resignFirstResponder()
         self.isSearch = false
-        self.connectionsCountLbl.text = "Connections (\(self.contactsList.count))"
+        self.connectionsCountLbl.text = VMCUIKeys.connections + " (\(self.contactsList.count))"
         self.tblView.reloadData()
     }
 }

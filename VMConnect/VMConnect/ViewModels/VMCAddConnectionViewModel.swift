@@ -15,22 +15,22 @@ class VMCAddConnectionViewModel: NSObject{
     
     func connectionSaveApiCall(addConnectionVC: VMCAddConnectionVC?, isEdit: Bool){
         if addConnectionVC!.firstNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.firstNameEmptyMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.firstNameEmptyMsg)
             addConnectionVC!.firstNameTextField.becomeFirstResponder()
         }else if addConnectionVC!.lastNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.lastNameEmptyMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.lastNameEmptyMsg)
             addConnectionVC!.lastNameTextField.becomeFirstResponder()
         }else if addConnectionVC!.emailTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.invalidEmailMsg)
             addConnectionVC!.emailTextField.becomeFirstResponder()
         }else if !VMCMethods.shared.isValidEmail(emailText: addConnectionVC!.emailTextField.text!){
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.invalidEmailMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.invalidEmailMsg)
             addConnectionVC!.emailTextField.becomeFirstResponder()
         }else if addConnectionVC!.favColorTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.favColorEmptyMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.favColorEmptyMsg)
             addConnectionVC!.favColorTextField.becomeFirstResponder()
         } else {
-            VMCMethods.shared.progressHudAction(hudType: "success", message: isEdit ? VMCMessages.connectionUpdatedMsg : VMCMessages.newConnectionAddedMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.success, message: isEdit ? VMCMessages.connectionUpdatedMsg : VMCMessages.newConnectionAddedMsg)
             self.delegate?.connectionSaveResponse(message: "", status: true)
         }
     }

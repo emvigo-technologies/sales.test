@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 
 class VMCConstants: NSObject {
+    static let titleList = ["Created","Mail","Favorite Color"]
 }
 
 //MARK: MESSAGES
@@ -44,6 +45,41 @@ struct VMCTitles {
     static let cameraAccess = "Turn on Camera Access"
     static let openSettings = "Open Settings"
 }
+
+struct VMCTableViewCells{
+    static let cell = "Cell"
+    static let cell0 = "Cell0"
+    static let cell1 = "Cell1"
+    static let headerCell = "HeaderCell"
+}
+
+struct VMCUIKeys{
+    static let room = "Room"
+    static let maxOccupancy = "Max.Occupancy:  "
+    static let occupied = "Occupied"
+    static let unoccupied = "Unoccupied"
+    static let name = "Name:"
+    static let job = "Job:"
+    static let mail = "Mail:"
+    static let connections = "Connections"
+}
+
+struct VMCImageKeys{
+    static let contactPlaceHolder = "contactPlaceHolder"
+}
+
+struct VMCHUDStatus{
+    static let success = "success"
+    static let info = "info"
+    static let show = "show"
+    static let dismiss = "dismiss"
+    static let error = "error"
+}
+
+struct VMCUserDefaultKeys{
+    static let loginStatus = "isLogged"
+}
+
 
 //MARK: COLORS
 struct VMCColors {

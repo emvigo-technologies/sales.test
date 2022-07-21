@@ -24,7 +24,6 @@ struct VMCContactModelElement: Codable {
 }
 
 // MARK: VMCContactModelElement convenience initializers and mutators
-
 extension VMCContactModelElement {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(VMCContactModelElement.self, from: data)
@@ -100,7 +99,6 @@ extension Array where Element == VMCContactModel.Element {
 }
 
 // MARK: - Helper functions for creating encoders and decoders
-
 func newJSONDecoder() -> JSONDecoder {
     let decoder = JSONDecoder()
     if #available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *) {

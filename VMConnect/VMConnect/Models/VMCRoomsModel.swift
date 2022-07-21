@@ -16,7 +16,6 @@ struct VMCRoomsModelElement: Codable {
 }
 
 // MARK: VMCRoomsModelElement convenience initializers and mutators
-
 extension VMCRoomsModelElement {
     init(data: Data) throws {
         self = try newJSONDecoder().decode(VMCRoomsModelElement.self, from: data)

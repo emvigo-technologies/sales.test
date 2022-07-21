@@ -4,12 +4,10 @@ class VMCDetailsVC: UIViewController{
     
     @IBOutlet var bgView: UIView!
     var contactData: VMCContactModelElement?
-    var titleList = ["Created","Mail","Favorite Color"]
     var mailManager: VMCMailManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidLayoutSubviews() {
@@ -17,11 +15,11 @@ class VMCDetailsVC: UIViewController{
     }
     
     @IBAction func callBtnClick(sender: UIButton){
-        VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.callUnavailableMsg)
+        VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.callUnavailableMsg)
     }
     
     @IBAction func messageBtnClick(sender: UIButton){
-        VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.msgUnavailableMsg)
+        VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.msgUnavailableMsg)
     }
     
     @IBAction func mailBtnClick(sender: UIButton){
@@ -42,14 +40,14 @@ class VMCDetailsVC: UIViewController{
             })
         }
         else{
-            VMCMethods.shared.progressHudAction(hudType: "info", message: VMCMessages.mailUnavailableMsg)
+            VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.info, message: VMCMessages.mailUnavailableMsg)
         }
     }
     
     @IBAction func shareConnectionBtnClick(sender: UIButton){
-        let fullName = "Name: \(self.contactData?.firstName ?? "")" + "\(self.contactData?.lastName ?? "") \n"
-        let jobTitle = "Job: \(self.contactData?.jobtitle ?? "") \n"
-        let email = "Mail: \(self.contactData?.email ?? "")"
+        let fullName = VMCUIKeys.name + " \(self.contactData?.firstName ?? "")" + "\(self.contactData?.lastName ?? "") \n"
+        let jobTitle = VMCUIKeys.job + " \(self.contactData?.jobtitle ?? "") \n"
+        let email = VMCUIKeys.mail + " \(self.contactData?.email ?? "")"
         let shareAll = ["\(fullName + jobTitle + email)"] as [Any]
         let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = sender.self
@@ -68,7 +66,7 @@ class VMCDetailsVC: UIViewController{
                             {_ in
                             },
                             {_ in
-                                VMCMethods.shared.progressHudAction(hudType: "success", message: VMCMessages.connectionDeletedConfirmMsg)
+                                VMCMethods.shared.progressHudAction(hudType: VMCHUDStatus.success, message: VMCMessages.connectionDeletedConfirmMsg)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                     self.navigationController?.popViewController(animated: true)
                                 }
@@ -102,27 +100,22 @@ extension VMCDetailsVC: UITableViewDelegate,UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell", for: indexPath) as! VMCDetailHeaderTVCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: VMCTableViewCells.headerCell, for: indexPath) as! VMCDetailHeaderTVCell
             cell.selectionStyle = .none
             if let imgUrlString = self.contactData?.avatar{
                 if !(imgUrlString.isEmpty){
-                    cell.userImageView.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: "contactPlaceHolder"))
+                    cell.userImageView.setImage(filePath: imgUrlString, placeholderImage: UIImage(named: VMCImageKeys.contactPlaceHolder))
                 }
             }
             cell.nameLabel.text = "\(self.contactData?.firstName ?? "")" + "\(self.contactData?.lastName ?? "")"
             cell.jobTitleLabel.text = "\(self.contactData?.jobtitle ?? "")"
             return cell
         }else if indexPath.section == 1{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell0", for: indexPath) as! VMCDetailTVCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: VMCTableViewCells.cell0, for: indexPath) as! VMCDetailTVCell
             cell.selectionStyle = .none
-            cell.titleLabel.text = self.titleList[indexPath.row]
+            cell.titleLabel.text = VMCConstants.titleList[indexPath.row]
             if indexPath.row == 0{
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                let date = dateFormatter.date(from: self.contactData?.createdAt ?? "")
-                dateFormatter.dateFormat = "MMM d, yyyy"
-                let resultString = dateFormatter.string(from: date!)
-                cell.nameLabel.text = resultString
+                cell.nameLabel.text = VMCMethods.shared.convertDate(fromDateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", toDateFormat: "MMM d, yyyy", dateString: self.contactData?.createdAt ?? "")
             }else if indexPath.row == 1{
                 cell.nameLabel.text = self.contactData?.email ?? ""
             }else{
@@ -130,11 +123,12 @@ extension VMCDetailsVC: UITableViewDelegate,UITableViewDataSource {
             }
             return cell
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! VMCSubDetailTVCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: VMCTableViewCells.cell1, for: indexPath) as! VMCSubDetailTVCell
             cell.selectionStyle = .none
             return cell
         }
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

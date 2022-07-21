@@ -7,11 +7,17 @@ target 'VMConnect' do
 
   # Pods for VMConnect
   
+  # SwifterSwift is a library of over 500 properties and methods, designed to extend Swift's functionality and productivity, staying faithful to the original Swift API design guidelines.
   pod 'SwifterSwift'
+  # IQKeyboardManager allows us to prevent the issue of keyboard sliding up and covering UITextField/UITextView without needing you to write any code or make any additional setup.
   pod 'IQKeyboardManagerSwift'
+  # Alamofire is an HTTP networking library written in Swift.
   pod 'Alamofire'
+  # Kingfisher is a powerful, pure-Swift library for downloading and caching images from the web.
   pod 'Kingfisher'
+  # SVProgressHUD is a clean and easy-to-use HUD meant to display the progress of an ongoing task on iOS.
   pod 'SVProgressHUD'
+  # A drop-in UITableView/UICollectionView superclass category for showing empty datasets whenever the view has no content to display.
   pod 'DZNEmptyDataSet'
 
 end

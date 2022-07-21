@@ -9,7 +9,6 @@ class VMCLoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loginVM = VMCLoginViewModel(withDelegate: self)
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func logInBtnClick(_ sender: UIButton) {

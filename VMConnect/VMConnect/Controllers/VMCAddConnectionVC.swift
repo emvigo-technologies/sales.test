@@ -20,7 +20,6 @@ class VMCAddConnectionVC: UIViewController{
         self.addConnectionVM = VMCAddConnectionViewModel(withDelegate: self)
         self.initalConfig()
         self.setDataInUI()
-        // Do any additional setup after loading the view.
     }
 
     override func viewDidLayoutSubviews() {

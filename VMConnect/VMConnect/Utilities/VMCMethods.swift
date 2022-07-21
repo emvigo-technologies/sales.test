@@ -26,6 +26,15 @@ class VMCMethods: NSObject {
         return attributedString1
     }
     
+    func convertDate(fromDateFormat:String, toDateFormat:String, dateString:String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = fromDateFormat
+        let date = dateFormatter.date(from: dateString)
+        dateFormatter.dateFormat = toDateFormat
+        let resultString = dateFormatter.string(from: date!)
+        return resultString
+    }
+    
     func progressHudAction(hudType:String,message:String){
         switch hudType {
         case "show":

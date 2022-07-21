@@ -8,14 +8,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = self.window
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if UserDefaults.standard.bool(forKey: "isLogged"){
-            if let homeTab = storyboard.instantiateViewController(withIdentifier: "VMCHomeTab") as? UITabBarController{
+        if UserDefaults.standard.bool(forKey: VMCUserDefaultKeys.loginStatus){
+            if let homeTab = VMCStoryboards.main.instantiateViewController(withIdentifier:VMCStoryboardID.hometabBarNavigationID) as? UITabBarController{
                 let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
                 sceneDelegate.window?.rootViewController = homeTab
             }
         }else{
-            if let loginVC = storyboard.instantiateViewController(withIdentifier: "VMCLoginVC") as? VMCLoginVC{
+            if let loginVC = VMCStoryboards.main.instantiateViewController(withIdentifier: VMCStoryboardID.loginScreenID) as? VMCLoginVC{
                 let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
                 sceneDelegate.window?.rootViewController = loginVC
             }
