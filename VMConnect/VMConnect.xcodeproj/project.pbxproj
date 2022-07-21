@@ -145,7 +145,7 @@
 		14C8D1272876FF0100ED15E0 /* VMConnect */ = {
 			isa = PBXGroup;
 			children = (
-				14C8D1402877136900ED15E0 /* Common */,
+				14C8D1402877136900ED15E0 /* Utilities */,
 				14C8D13F2876FF6300ED15E0 /* ApiManager */,
 				14C8D13C2876FF4200ED15E0 /* Models */,
 				14C8D13D2876FF4A00ED15E0 /* Views */,
@@ -202,7 +202,7 @@
 			path = ApiManager;
 			sourceTree = "<group>";
 		};
-		14C8D1402877136900ED15E0 /* Common */ = {
+		14C8D1402877136900ED15E0 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				1432BFE0287D87F000CBDF6D /* VMCStoryboards.swift */,
@@ -215,7 +215,7 @@
 				68F6B22B288703BE00C90F0E /* VMCImagePicker.swift */,
 				686E0C762887D3C200DB0B45 /* VMCMailManager.swift */,
 			);
-			path = Common;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		686E0C6D2887B57F00DB0B45 /* ViewModels */ = {
