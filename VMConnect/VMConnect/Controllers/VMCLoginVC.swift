@@ -8,6 +8,8 @@ class VMCLoginVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.emailTextField.text = "john@gmail.com"
+        self.passwordTextField.text = "john123!"
         self.loginVM = VMCLoginViewModel(withDelegate: self)
     }
     

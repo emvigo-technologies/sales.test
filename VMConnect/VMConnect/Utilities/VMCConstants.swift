@@ -45,14 +45,12 @@ struct VMCTitles {
     static let cameraAccess = "Turn on Camera Access"
     static let openSettings = "Open Settings"
 }
-
 struct VMCTableViewCells{
     static let cell = "Cell"
     static let cell0 = "Cell0"
     static let cell1 = "Cell1"
     static let headerCell = "HeaderCell"
 }
-
 struct VMCUIKeys{
     static let room = "Room"
     static let maxOccupancy = "Max.Occupancy:  "
@@ -63,11 +61,9 @@ struct VMCUIKeys{
     static let mail = "Mail:"
     static let connections = "Connections"
 }
-
 struct VMCImageKeys{
     static let contactPlaceHolder = "contactPlaceHolder"
 }
-
 struct VMCHUDStatus{
     static let success = "success"
     static let info = "info"
@@ -75,9 +71,19 @@ struct VMCHUDStatus{
     static let dismiss = "dismiss"
     static let error = "error"
 }
-
 struct VMCUserDefaultKeys{
     static let loginStatus = "isLogged"
+}
+
+struct VMCConfigKeys{
+    static let sceneConfiguration = "Default Configuration"
+}
+
+struct VMCAPIResponse{
+    static let success = "Success"
+    static let dataFetchingFailed = "Data fetching failed"
+    static let parsingFailed = "Failed to parse data"
+    static let serverError = "Server error occured"
 }
 
 

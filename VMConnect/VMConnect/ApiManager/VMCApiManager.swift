@@ -11,18 +11,18 @@ class VMCApiManager: NSObject {
             case .success( _):
                 if let model = try? VMCContactModel.init(data: response.data ?? Data()) {
                     if response.response?.statusCode == 200 || response.response?.statusCode == 201{
-                        completion("Success",true, model)
+                        completion(VMCAPIResponse.success,true, model)
                     } else if response.response?.statusCode == 401 || response.response?.statusCode == 403 {
-                        completion("Data fetching failed",false, nil)
+                        completion(VMCAPIResponse.dataFetchingFailed,false, nil)
                     } else{
-                        completion("Data fetching failed",false, nil)
+                        completion(VMCAPIResponse.dataFetchingFailed,false, nil)
                     }
                 } else {
                     //Failed To Parse Data
-                    completion("Failed to parse data",false, nil)
+                    completion(VMCAPIResponse.parsingFailed,false, nil)
                 }
             case .failure( _):
-                completion("Server error occured", false, nil)
+                completion(VMCAPIResponse.serverError, false, nil)
             }
         }
     }
@@ -35,18 +35,18 @@ class VMCApiManager: NSObject {
             case .success( _):
                 if let model = try? VMCRoomsModel.init(data: response.data ?? Data()) {
                     if response.response?.statusCode == 200 || response.response?.statusCode == 201{
-                        completion("Success",true, model)
+                        completion(VMCAPIResponse.success,true, model)
                     } else if response.response?.statusCode == 401 || response.response?.statusCode == 403 {
-                        completion("Data fetching failed",false, nil)
+                        completion(VMCAPIResponse.dataFetchingFailed,false, nil)
                     } else{
-                        completion("Data fetching failed",false, nil)
+                        completion(VMCAPIResponse.dataFetchingFailed,false, nil)
                     }
                 } else {
                     //Failed To Parse Data
-                    completion("Failed to parse data",false, nil)
+                    completion(VMCAPIResponse.parsingFailed,false, nil)
                 }
             case .failure( _):
-                completion("Server error occured", false, nil)
+                completion(VMCAPIResponse.serverError, false, nil)
             }
         }
     }
